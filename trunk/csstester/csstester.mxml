@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ng:CSSTester xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:ng="*" layout="vertical" creationComplete="startup();">
+	<mx:ApplicationControlBar width="100%">
+		<mx:Text text="CSS 3 Tester" fontSize="18" fontWeight="bold"/>
+	</mx:ApplicationControlBar>
+	<mx:VDividedBox height="100%" width="100%">
+		<mx:HDividedBox width="100%" height="100%">
+			<mx:Panel width="100%" height="100%" layout="vertical" title="XML" toolTip="{xmlStatus}">
+				<mx:TextArea width="100%" height="100%" text="{xmlContent}" id="xmlInput" focusOut="updateXML()"/>
+			</mx:Panel>
+			<mx:Panel width="100%" height="100%" layout="vertical" title="CSS"  toolTip="{cssStatus}">
+				<mx:TextArea width="100%" height="100%" text="{cssContent}" id="cssInput" focusOut="updateCSS()"/>
+			</mx:Panel>
+		</mx:HDividedBox>
+		<mx:VBox height="100%" width="100%" horizontalAlign="center">
+			<mx:Button width="80%" label="Apply" click="updateDOM()"/>
+			<mx:Panel width="100%" height="100%" title="Styled Nodes">
+				<mx:Tree width="100%" height="100%" labelFunction="labelDomTreeItem" id="domTree">
+					<!--<mx:itemRenderer>
+						<mx:Component>
+							<ng:DOMTreeItem>
+								<mx:Label text="{data.label}"/>
+							</ng:DOMTreeItem>
+						</mx:Component>
+					</mx:itemRenderer>-->
+				</mx:Tree>
+			</mx:Panel>
+		</mx:VBox>
+	</mx:VDividedBox>
+	<!--<mx:ApplicationControlBar width="100%">
+	
+		<mx:Label text="Done" width="100%"/>
+		<mx:HBox width="100%" horizontalAlign="right">
+			<mx:ProgressBar labelPlacement="left"/>
+		</mx:HBox>
+	
+	</mx:ApplicationControlBar>-->
+</ng:CSSTester>
