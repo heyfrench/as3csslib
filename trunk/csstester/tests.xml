@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test label="Groups of Selectors (E, F)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<ul>
+				  <li>This list item should be selected</li>
+				  <li>This list item should also be selected</li>
+				</ul>
+				<p>This paragraph should be selected.</p>
+			</xml>
+
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			li,p { background-color : lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			 <li>This list item should be selected</li>
+			 <li>This list item should also be selected</li>
+			 <p>This paragraph should be selected.</p>
+		]]>
+		</expected>
+	</test>
+	<test label="Type Element Selectors (E)">
+		<xml>
+		<![CDATA[
+			<address>This address element should be selected.</address>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			address { background-color: lime }	
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<address>This address element should be selected.</address>
+		]]>
+		</expected>
+	</test>
+	<test label="Universal Selector (*)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<p>
+					<span class="t1">This paragraph should be selected.</span>
+				</p>
+				<ul>
+				  <li class="t1">This item should be selected.</li>
+				</ul>
+				<foo>And this element should be selected too</foo>
+			</xml>
+
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			* { color : lime }
+			*.t1 { color : lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<xml>
+				<p>
+					<span class="t1">This paragraph should be selected.</span>
+				</p>
+				<ul>
+				  <li class="t1">This item should be selected.</li>
+				</ul>
+				<foo>And this element should be selected too</foo>
+			</xml>
+			<p>
+				<span class="t1">This paragraph should be selected.</span>
+			</p>
+			<span class="t1">This paragraph should be selected.</span>
+			<ul>
+			  <li class="t1">This item should be selected.</li>
+			</ul>
+			<li class="t1">This item should be selected.</li>
+			<foo>And this element should be selected too</foo>
+			<span class="t1">This paragraph should be selected.</span>
+			<li class="t1">This item should be selected.</li>
+		]]>
+		</expected>
+	</test>
+	<test label="Descendant Combinator (E F)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<ul>
+				  <li>This list item should be selected</li>
+				</ul>
+				<p>This paragraph should not be selected.</p>
+			</xml>
+
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			xml li { background: lime }
+			ul li { background: lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<li>This list item should be selected</li>
+			<li>This list item should be selected</li>
+		]]>
+		</expected>
+	</test>
+	<test label="Child Combinator (E > F)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<ul>
+				  <li>This list item should be selected</li>
+				</ul>
+				<p>This paragraph should be selected.</p>
+			</xml>
+
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			xml > p { background: lime }
+			ul > li { background: lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p>This paragraph should be selected.</p>
+			<li>This list item should be selected</li>
+		]]>
+		</expected>
+	</test>
+	<test label="Adjacent Sibling Combinator (E + F)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<ul>
+				  <li>This list item should not be selected</li>
+				</ul>
+				<p>This paragraph should be selected.</p>
+			</xml>
+
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			ul + p { background: lime }
+			ul + li { background: lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p>This paragraph should be selected.</p>
+		]]>
+		</expected>
+	</test>
+	<test label="General Sibling Combinator (E ~ F)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<div>This div should not be selected.</div>
+				<ul>
+				  <li>This list item should not be selected</li>
+				</ul>
+				<p>This paragraph should be selected.</p>
+			</xml>
+
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			div ~ p { background: lime }
+			ul ~ li { background: lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p>This paragraph should be selected.</p>
+		]]>
+		</expected>
+	</test>
+	<test label="Attribute Existence Selector (E[attr])">
+		<xml>
+		<![CDATA[
+			<xml>
+				<a title="title">This anchor should not be selected.</a>
+				<p>No title</p>
+				<p title="title">This paragraph should be selected because its TITLE attribute is set.</p>
+			</xml>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			p[title] { background-color : lime }	
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p title="title">This paragraph should be selected because its TITLE attribute is set.</p>
+		]]>
+		</expected>
+	</test>
+	<test label="Attribute Value Selector (E[attr=value])">
+		<xml>
+		<![CDATA[
+			<address title="foo">
+				<span title="b">This should</span>
+				<span title="aa">be selected.</span>
+			</address>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			address[title="foo"] { background-color : lime }
+			span[title="a"] { background-color : red }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<address title="foo">
+				<span title="b">This should</span>
+				<span title="aa">be selected.</span>
+			</address>
+		]]>
+		</expected>
+	</test>
+	<test label="Attribute Multitative Selector (E[attr~=value])">
+		<xml>
+		<![CDATA[
+			<xml>
+				<p class="a b c">This paragraph should be selected because CLASS contains "b"</p>
+				<address title="tot foo bar">
+					<span class="a c">This span should not be selected.</span>
+					<span class="a bb c">This span should not be selected.</span>
+				</address>
+			</xml>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			p[class~="b"] { background-color : lime }
+			address[title~="foo"] { background-color : lime }
+			span[class~="b"] { background-color : red }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p class="a b c">This paragraph should be selected because CLASS contains "b"</p>
+			<address title="tot foo bar">
+				<span class="a c">This span should not be selected.</span>
+				<span class="a bb c">This span should not be selected.</span>
+			</address>
+		]]>
+		</expected>
+	</test>
+	<test label="Attribute Prefix Selector (E[attr^=value])">
+		<xml>
+		<![CDATA[
+			<p title="foobar">This paragraph should be selected because its title attribute begins with "foo"</p>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			p[title^="foo"] { background-color : lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p title="foobar">This paragraph should be selected because its title attribute begins with "foo"</p>
+		]]>
+		</expected>
+	</test>
+	<test label="Attribute Suffix Selector (E[attr$=value])">
+		<xml>
+		<![CDATA[
+			<p title="foobar">This paragraph should be selected because its title attribute ends with "bar"</p>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			p[title$="bar"] { background-color : lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p title="foobar">This paragraph should be selected because its title attribute ends with "bar"</p>
+		]]>
+		</expected>
+	</test>
+	<test label="Attribute Substring Selector (E[attr*=value])">
+		<xml>
+		<![CDATA[
+			<p title="foobarufoo">This paragraph should be selected because its title attribute contains "bar"</p>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			p[title*="bar"] { background-color : lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p title="foobarufoo">This paragraph should be selected because its title attribute contains "bar"</p>
+		]]>
+		</expected>
+	</test>
+	<test label="Class Selectors (E.warning)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<ul>
+				  <li class="t1">This list item should be selected because its class is "t1"</li>
+				  <li class="t2">This list item should be selected because its class is "t2"</li>
+				  <li class="t2">
+				    <span class="t33">This list item should not be selected.</span>
+				  </li>
+				</ul>
+			</xml>
+
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			.t1 { background-color : lime }
+			li.t2 { background-color : lime }
+			.t3 { background-color : red }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<li class="t1">This list item should be selected because its class is "t1"</li>
+			<li class="t2">This list item should be selected because its class is "t2"</li>
+			 <li class="t2">
+			    <span class="t33">This list item should not be selected.</span>
+			  </li>
+		]]>
+		</expected>
+	</test>
+	<test label="Multiple Class Selectors (E.foo.bar)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<p class="t1 t2">This paragraph should be selected because carries both classes t1 and t2.</p>
+				<div class="test">This should not be selected.</div>
+				<p class="t1 t3">This paragraph should be selected.</p>
+
+			</xml>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			p.t1.t2 { background-color : lime }
+			div.te.st { background-color: red }
+			.t1.t3 { background-color: lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<p class="t1 t2">This paragraph should be selected because carries both classes t1 and t2.</p>
+			<p class="t1 t3">This paragraph should be selected.</p>
+		]]>
+		</expected>
+	</test>
+	<test label="ID Selectors (E#id)">
+		<xml>
+		<![CDATA[
+			<xml>
+				<li id="t1">This item should be selected.</li>
+				<li id="t2">This item should be selected.</li>
+				<li id="t3">This item should not be selected.</li>
+			</xml>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			#t1 { background-color : lime }
+			li#t2 { background-color : lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<li id="t1">This item should be selected.</li>
+			<li id="t2">This item should be selected.</li>
+		]]>
+		</expected>
+	</test>
+	<test label="Root Pseudo-Class Selector (:root)">
+		<xml>
+		<![CDATA[
+			<html>
+				<head>
+				  <title/>
+				</head>
+				<body>
+				  <div></div>
+				</body>
+			</html>
+		]]>
+		</xml>
+		<css>
+		<![CDATA[
+			:root { background: lime }
+			html:root { background: lime }
+		]]>
+		</css>
+		<expected>
+		<![CDATA[
+			<html>
+				<head>
+				  <title/>
+				</head>
+				<body>
+				  <div></div>
+				</body>
+			</html>
+			<html>
+				<head>
+				  <title/>
+				</head>
+				<body>
+				  <div></div>
+				</body>
+			</html>
+		]]>
+		</expected>
+	</test>
+</tests>
