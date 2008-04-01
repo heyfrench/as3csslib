@@ -14,7 +14,9 @@ package com.newgonzo.commons.css.dom
 		public function select(xml:XML):XMLList
 		{
 			var newList:XMLList = new XMLList(xml);
-			newList += xml.descendants();
+			
+			// should this include text nodes?
+			newList += xml.descendants().(nodeKind() != "text");
 			return newList;
 		}
 		

@@ -1,30 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ng:CSSTester xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:ng="*" layout="vertical" creationComplete="startup();">
+	<mx:HTTPService resultFormat="e4x" id="testsService" url="tests.xml"  result="testsReceived(event)" fault="testsFailed(event)"/>
+	
 	<mx:ApplicationControlBar width="100%">
-		<mx:Text text="CSS 3 Tester" fontSize="18" fontWeight="bold"/>
+		<mx:Text text="ActionScript 3.0 CSS Test Runner" fontSize="18" fontWeight="bold"/>
 	</mx:ApplicationControlBar>
 	<mx:VDividedBox height="100%" width="100%">
 		<mx:HDividedBox width="100%" height="100%">
-			<mx:Panel width="100%" height="100%" layout="vertical" title="XML" toolTip="{xmlStatus}">
-				<mx:TextArea width="100%" height="100%" text="{xmlContent}" id="xmlInput" focusOut="updateXML()"/>
+			<mx:Panel width="300" height="100%" layout="vertical" verticalGap="0" title="Tests">
+				<mx:List id="testsList" width="100%" height="100%" dataProvider="{testData}" labelField="@label" selectedIndex="0" change="updateTest()" valueCommit="updateTest()" allowMultipleSelection="false"></mx:List>
+				<mx:TextArea width="100%" color="#264F9A" editable="false">
+					<mx:text>Select a pre-written test to auto-fill the XML, CSS and Expected values.</mx:text>
+				</mx:TextArea>
 			</mx:Panel>
-			<mx:Panel width="100%" height="100%" layout="vertical" title="CSS"  toolTip="{cssStatus}">
-				<mx:TextArea width="100%" height="100%" text="{cssContent}" id="cssInput" focusOut="updateCSS()"/>
+			<mx:Panel width="100%" height="100%" layout="vertical" title="CSS"  toolTip="{cssStatus}" verticalGap="0" status="Editable">
+				<mx:TextArea width="100%" height="100%" text="{cssContent}" change="testContentChanged()" id="cssInput" focusOut="updateCSS()"/>
+				<mx:TextArea width="100%" color="#264F9A" editable="false">
+					<mx:text>1. The CSS entered above gets parsed and creates a set of selectors.</mx:text>
+				</mx:TextArea>
+			</mx:Panel>
+			<mx:Panel width="100%" height="100%" layout="vertical" toolTip="{xmlStatus}" title="XML" verticalGap="0" status="Editable">
+				<mx:TextArea width="100%" height="100%" text="{xmlContent}" change="testContentChanged()" id="xmlInput" focusOut="updateXML()"/>
+				<mx:TextArea width="100%" color="#264F9A" editable="false">
+					<mx:text>2. The XML entered above gets queried by the CSS selectors.</mx:text>
+				</mx:TextArea>
 			</mx:Panel>
 		</mx:HDividedBox>
-		<mx:VBox height="100%" width="100%" horizontalAlign="center">
-			<mx:Button width="80%" label="Apply" click="updateDOM()"/>
-			<mx:Panel width="100%" height="100%" title="Styled Nodes">
-				<mx:Tree width="100%" height="100%" labelFunction="labelDomTreeItem" id="domTree">
-					<!--<mx:itemRenderer>
-						<mx:Component>
-							<ng:DOMTreeItem>
-								<mx:Label text="{data.label}"/>
-							</ng:DOMTreeItem>
-						</mx:Component>
-					</mx:itemRenderer>-->
-				</mx:Tree>
-			</mx:Panel>
+		<mx:VBox height="100%" width="100%" horizontalAlign="right">
+			<mx:HBox width="100%" horizontalAlign="center" paddingTop="5" paddingBottom="5" horizontalGap="4">
+				<mx:Button width="250" label="Test" click="updateDOM()" enabled="{testChanged}" disabledColor="#436167"/>
+			</mx:HBox>
+			<mx:HDividedBox width="100%" height="100%">
+				<mx:Panel width="100%" height="100%" title="Results" verticalGap="0">
+					<mx:TextArea height="100%" width="100%" id="resultsText" editable="false">
+						<!--<mx:itemRenderer>
+							<mx:Component>
+								<ng:DOMTreeItem>
+									<mx:Label text="{data.label}"/>
+								</ng:DOMTreeItem>
+							</mx:Component>
+						</mx:itemRenderer>-->
+					</mx:TextArea>
+					<mx:TextArea width="100%" color="#264F9A" editable="false">
+						<mx:text>3. The XML nodes that match the CSS query get output above.</mx:text>
+					</mx:TextArea>
+				</mx:Panel>
+				<mx:Panel width="100%" height="100%" title="Expected Results" borderColor="{(!testChanged ? (testPassed ? 0x006600 : 0x660000) : 0xB7BABC)}" toolTip="{expectedStatus}" verticalGap="0" status="Editable">
+					<mx:TextArea id="expectedInput" width="100%" height="100%" text="{expectedResults}" change="testContentChanged()"/>
+					<mx:TextArea width="100%" color="#264F9A" editable="false">
+						<mx:text>4. The XML entered above is the expected result and gets compared to the CSS results (Passed/Failed).</mx:text>
+					</mx:TextArea>
+				</mx:Panel>
+			</mx:HDividedBox>
 		</mx:VBox>
 	</mx:VDividedBox>
 	<!--<mx:ApplicationControlBar width="100%">

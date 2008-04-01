@@ -4,18 +4,19 @@ package
 	import com.newgonzo.commons.css.parser.CSSParser;
 	import com.newgonzo.commons.css.sac.IDocumentHandler;
 	import com.newgonzo.commons.css.sac.ISelectorList;
-	import com.newgonzo.commons.io.*;
 	
 	import flash.utils.Dictionary;
 	
+	import mx.controls.Alert;
+	import mx.controls.List;
 	import mx.controls.TextArea;
-	import mx.controls.Tree;
 	import mx.core.Application;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	import mx.rpc.http.HTTPService;
 	
 	public class CSSTester extends Application implements IDocumentHandler
 	{
-		private var queue:LoaderQueue;
-		
 		private var xmlData:String;
 		private var cssData:String;
 		
@@ -23,44 +24,52 @@ package
 		
 		[Bindable] public var xmlStatus:String;
 		[Bindable] public var cssStatus:String;
+		[Bindable] public var expectedStatus:String;
+		[Bindable] public var testData:XMLList;
+		[Bindable] public var testChanged:Boolean = false;
+		[Bindable] public var testPassed:Boolean = false;
+		
+		[Bindable] public var xmlContent:String;
+		[Bindable] public var cssContent:String;
+		[Bindable] public var expectedResults:String;
 		
 		public var xmlInput:TextArea;
 		public var cssInput:TextArea;
-		public var domTree:Tree;
+		public var resultsText:TextArea;
+		public var expectedInput:TextArea;
+		//public var domTree:Tree;
+		public var testsService:HTTPService;
+		public var testsList:List;
 		
 		private var resultXml:XMLList;
 		private var nodeStyles:Dictionary;
 		
 		
+		
+		
 		public function CSSTester()
 		{
+			XML.prettyIndent = 8;
 		}
 		
 		public function startup():void
 		{
-			queue = new LoaderQueue();
+			testsService.send();
 		}
 		
-		[Bindable] 
-		public function set cssContent(value:String):void
+		public function testsReceived(event:ResultEvent):void
 		{
-			cssData = value;
+			testData = event.result.test as XMLList;
 		}
 		
-		public function get cssContent():String
+		public function testsFailed(event:FaultEvent):void
 		{
-			return cssData;
+			Alert.show("Failed to load test XML.");
 		}
 		
-		[Bindable]
-		public function set xmlContent(value:String):void
+		public function testContentChanged():void
 		{
-			xmlData = value;
-		}
-		
-		public function get xmlContent():String
-		{
-			return xmlData;
+			testChanged = true;
 		}
 		
 		public function labelDomTreeItem(item:XML):String
@@ -83,12 +92,39 @@ package
 			return a[0] as String;
 		}
 		
+		public function updateTest():void
+		{
+			var xmlTest:XML = testsList.selectedItems[0] as XML;
+			
+			if(!xmlTest) return;
+			
+			//domTree.dataProvider = null;
+			
+			var xmlText:String = xmlTest.xml.text().toString();
+			xmlText = xmlText.replace(/^[\s]*/, "").replace(/[\s]*$/, "");
+			
+			var cssText:String = xmlTest.css.text().toString();
+			cssText = cssText.replace(/^[\s]*/, "").replace(/[\s]*$/, "");
+			
+			var expectedText:String = xmlTest.expected.text().toString();
+			expectedText = expectedText.replace(/^[\s]*/, "").replace(/[\s]*$/, "");
+			
+			
+			expectedInput.text = expectedText;
+			xmlInput.text = xmlText;
+			cssInput.text = cssText;
+			
+			updateDOM();
+		}
+		
 		public function updateXML():void
 		{
 			try
 			{
 				xml = new XML(xmlInput.text);
 				xmlStatus = "XML OK";
+				
+				xmlInput.text = xml.toXMLString();
 			}
 			catch(e:Error)
 			{
@@ -108,25 +144,44 @@ package
 			catch(e:Error)
 			{
 				//Alert.show(e.getStackTrace());
-				cssStatus = e.message;	
+				cssStatus = e.message;
+				testPassed = false;	
 			}
 			
 		}
 		
 		public function updateDOM():void
 		{
+			testChanged = false;
+			
 			updateXML();
 			updateCSS();
 			
 			nodeStyles = new Dictionary();
 			
 			// update view by resetting data provider
-			domTree.dataProvider = resultXml;
-		}
-		
-		protected function styleXML(xml:XML, props:Object):void
-		{
-			nodeStyles[xml] = props;
+			resultsText.text = resultXml.toXMLString();
+			
+			try
+			{
+				var expectedXml:XMLList = new XMLList(expectedInput.text);
+				
+				if(resultXml == expectedXml)
+				{
+					testPassed = true;
+				}
+				else
+				{
+					testPassed = false;
+				}
+				
+				expectedInput.text = expectedXml.toXMLString();
+			}
+			catch(e:Error)
+			{
+				expectedStatus = e.message;
+				testPassed = false;
+			}
 		}
 		
 		public function startDocument(source:String):void
@@ -152,11 +207,6 @@ package
 			
 			for each(result in results)
 			{
-				if(result.parent())
-				{
-					domTree.expandItem(result.parent(), true);
-				}
-				
 				resultXml += result;
 			}
 			
