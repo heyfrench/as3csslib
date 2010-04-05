@@ -1,4 +1,4 @@
-#summary Instructions for loading imported style sheets (@import)
+#summary Instructions for loading imported style sheets (@import).
 
 = Introduction =
 
