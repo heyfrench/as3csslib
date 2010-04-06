@@ -2,5 +2,23 @@
 
 = Introduction =
 
+The CSS context object is used to configure the CSS engine by defining 
+the main object factory (`ICSSFactory`), CSS property definitions (`IPropertyManager`),
+and object-CSS views (`ICSSView`). Every CSS instance requires a context object.
 
 = Details =
+
+The CSS context can be defined in one of two ways:
+
+{{{
+
+import com.newgonzo.web.css.*:
+
+// set it once and forget it
+CSS.defaultContext = new CSS3Context();
+var mycss:CSS = new CSS("p {color: #F00;}");
+
+// set it on a per-insace basis (or override the default)
+var mycss:CSS = new CSS("p {color: #F00;}", new CSS3Context());
+
+}}}
