@@ -2,6 +2,10 @@
 
 = Introduction =
 
-CSS views are ddd
+A CSS view (`ICSSView`) is an object that acts as a bridge between your stylable data (XML, display list, etc.) and the CSS engine.
+Everything that the CSS engine needs to know about your data it gets from the view. 
 
 = Details =
+
+When the CSS engine attempts to style a node, it first gets a view for that node from the CSS context object. For example, if we're trying to
+get styles for some XML node, the CSS context will return an instance of `XMLCSSView`. Views exist for XML, DisplayObjects, and arbitrary object hierarchies.
