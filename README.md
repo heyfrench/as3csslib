@@ -21,14 +21,14 @@ managers specific to CSS3 (background, border, font, etc.).
 The CSS context can be defined in one of two ways:
 
 ```as3
-    import com.newgonzo.web.css.*:
+import com.newgonzo.web.css.*:
 
-    // set it once for all future CSS instances
-    CSS.defaultContext = new CSS3Context();
-    var mycss:CSS = new CSS("p {color: #F00;}");
+// set it once for all future CSS instances
+CSS.defaultContext = new CSS3Context();
+var mycss:CSS = new CSS("p {color: #F00;}");
 
-    // set it on a per-insace basis (or override the default)
-    var mycss:CSS = new CSS("p {color: #F00;}", new CSS3Context());
+// set it on a per-insace basis (or override the default)
+var mycss:CSS = new CSS("p {color: #F00;}", new CSS3Context());
 ```
 
 # CSSView
