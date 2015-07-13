@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<tests xmlns:style="style">
+	<test>
+		<description><![CDATA[Hex color values (#)]]></description>
+		<css>
+		<![CDATA[
+			p {color: #000000;}
+			div {color: #000;}
+		]]>
+		</css>
+		<html>
+			<p style:color="0"/>
+			<div style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[RGB color values (rgb())]]></description>
+		<css>
+		<![CDATA[
+			p {color: rgb(0,0,0);}
+		]]>
+		</css>
+		<html>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[HSL color values (hsl())]]></description>
+		<css>
+		<![CDATA[
+			p {color: hsl(0,0,0);}
+		]]>
+		</css>
+		<html>
+			<p style:color="0"/>
+		</html>
+	</test>
+</tests>

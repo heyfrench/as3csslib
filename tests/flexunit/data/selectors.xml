@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<tests xmlns:style="style">
+	<test>
+		<!-- -->
+		<css><![CDATA[p[class~=middle] {color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+		</html>
+	</test>
+
+	<test>
+		<!-- * any element -->
+		<css><![CDATA[*{color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E an element of type E -->
+		<css><![CDATA[p{color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E[foo] an E element with a "foo" attribute -->
+		<css><![CDATA[p[name] {color: #000;}]]></css>
+		<html>
+			<p name="left" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E[foo="bar"] an E element whose "foo" attribute value is exactly equal to "bar" -->
+		<css><![CDATA[p[name="left"] {color: #000;}]]></css>
+		<html>
+			<p name="left" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E[foo~="bar"] an E element whose "foo" attribute value is a list of whitespace-separated values, one of which is exactly equal to "bar" -->
+		<css><![CDATA[p[name~="middle"] {color: #000;}]]></css>
+		<html>
+			<p name="left middle right" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E[foo^="bar"] an E element whose "foo" attribute value begins exactly with the string "bar" -->
+		<css><![CDATA[p[name^="mid"] {color: #000;}]]></css>
+		<html>
+			<p name="middle" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E[foo$="bar"] an E element whose "foo" attribute value ends exactly with the string "bar" -->
+		<css><![CDATA[p[name$="dle"] {color: #000;}]]></css>
+		<html>
+			<p name="middle" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E[foo*="bar"] an E element whose "foo" attribute value contains the substring "bar" -->
+		<css><![CDATA[p[name*="dd"] {color: #000;}]]></css>
+		<html>
+			<p name="middle" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E[foo|="en"] an E element whose "foo" attribute has a hyphen-separated list of values beginning (from the left) with "en" -->
+		<css><![CDATA[p[lang|="en"] {color: #000;}]]></css>
+		<html>
+			<p lang="en-US" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E:root an E element, root of the document -->
+		<css><![CDATA[p[lang|="en"] {color: #000;}]]></css>
+		<html style:color="0">
+			<p/>
+		</html>
+	</test>
+	<test>
+		<!-- E:nth-child(n) an E element, the n-th child of its parent  -->
+		<css><![CDATA[p:nth-child(2) {color: #000;}]]></css>
+		<html>
+			<p/>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E:nth-last-child(n) an E element, the n-th child of its parent, counting from the last one   -->
+		<css><![CDATA[p:nth-last-child(2) {color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+			<p/>
+		</html>
+	</test>
+	<test>
+		<!-- E:nth-of-type(n) an E element, the n-th sibling of its type -->
+		<css><![CDATA[p:nth-of-type(2) {color: #000;}]]></css>
+		<html>
+			<div/>
+			<p/>
+			<div/>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<!-- E:nth-last-of-type(n) an E element, the n-th sibling of its type, counting from the last one -->
+		<css><![CDATA[p:nth-last-of-type(2) {color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+			<div/>
+			<p/>
+			<div/>
+		</html>
+	</test>
+</tests>

@@ -1,0 +1,1 @@
+﻿package org.w3c.dom.html{	public interface IHTMLAnchorElement extends IHTMLElement	{		function get href():String		function get hreflang():String		function get name():String		function get rel():String		function get rev():String		function get target():String		function get type():String		function get accessKey():String	}}

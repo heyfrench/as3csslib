@@ -1,0 +1,313 @@
+<?xml version="1.0"?>
+<tests xmlns:style="style">
+	<!--<test>
+		<description><![CDATA[]]></description>
+		<css><![CDATA[p[class~=middle] {color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+		</html>
+	</test>-->
+
+	<test>
+		<description><![CDATA[* any element]]></description>
+		<css><![CDATA[*{color: #000;}]]></css>
+		<html style:color="0">
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E, F Selector lists]]></description>
+		<css><![CDATA[html, p {color: #000;}]]></css>
+		<html style:color="0">
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E an element of type E]]></description>
+		<css><![CDATA[p{color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E[foo] an E element with a "foo" attribute]]></description>
+		<css><![CDATA[p[name] {color: #000;}]]></css>
+		<html>
+			<p name="left" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E[foo="bar"] an E element whose "foo" attribute value is exactly equal to "bar"]]></description>
+		<css><![CDATA[p[name="left"] {color: #000;}]]></css>
+		<html>
+			<p name="left" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E[foo~="bar"] an E element whose "foo" attribute value is a list of whitespace-separated values, one of which is exactly equal to "bar"]]></description>
+		<css><![CDATA[p[name~="middle"] {color: #000;}]]></css>
+		<html>
+			<p name="left middle right" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E[foo^="bar"] an E element whose "foo" attribute value begins exactly with the string "bar"]]></description>
+		<css><![CDATA[p[name^="mid"] {color: #000;}]]></css>
+		<html>
+			<p name="middle" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E[foo$="bar"] an E element whose "foo" attribute value ends exactly with the string "bar"]]></description>
+		<css><![CDATA[p[name$="dle"] {color: #000;}]]></css>
+		<html>
+			<p name="middle" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E[foo*="bar"] an E element whose "foo" attribute value contains the substring "bar"]]></description>
+		<css><![CDATA[p[name*="dd"] {color: #000;}]]></css>
+		<html>
+			<p name="middle" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E[foo|="en"] an E element whose "foo" attribute has a hyphen-separated list of values beginning (from the left) with "en"]]></description>
+		<css><![CDATA[html[lang|="en"] {color: #000;}]]></css>
+		
+		<html lang="en-US" style:color="0">
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:root an E element, root of the document]]></description>
+		<css><![CDATA[html:root {color: #000;}]]></css>
+		<html style:color="0">
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:nth-child(n) an E element, the n-th child of its parent]]></description>
+		<css><![CDATA[p:nth-child(2) {color: #000;}]]></css>
+		<html>
+			<p/>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:nth-last-child(n) an E element, the n-th child of its parent, counting from the last one]]></description>
+		<css><![CDATA[p:nth-last-child(2) {color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+			<p/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:nth-of-type(n) an E element, the n-th sibling of its type]]></description>
+		<css><![CDATA[p:nth-of-type(2) {color: #000;}]]></css>
+		<html>
+			<div/>
+			<p/>
+			<div/>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:nth-last-of-type(n) an E element, the n-th sibling of its type, counting from the last one]]></description>
+		<css><![CDATA[p:nth-last-of-type(2) {color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+			<div/>
+			<p/>
+			<div/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:first-child an E element, first child of its parent]]></description>
+		<css><![CDATA[p:first-child {color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+			<div/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:last-child an E element, last child of its parent]]></description>
+		<css><![CDATA[p:last-child {color: #000;}]]></css>
+		<html>
+			<div/>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:first-of-type an E element, first sibling of its type]]></description>
+		<css><![CDATA[p:first-of-type {color: #000;}]]></css>
+		<html>
+			<div/>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:last-of-type an E element, last sibling of its type]]></description>
+		<css><![CDATA[p:last-of-type {color: #000;}]]></css>
+		<html>
+			<p/>
+			<p style:color="0"/>
+			<div/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:only-child an E element, only child of its parent]]></description>
+		<css><![CDATA[p:only-child {color: #000;}]]></css>
+		<html>
+			<p/>
+			<div>
+				<p style:color="0"/>
+			</div>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:only-of-type an E element, only sibling of its type]]></description>
+		<css><![CDATA[p:only-of-type {color: #000;}]]></css>
+		<html>
+			<div/>
+			<p style:color="0"/>
+			<div/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:empty an E element that has no children (including text nodes)]]></description>
+		<css><![CDATA[p:empty {color: #000;}]]></css>
+		<html>
+			<p style:color="0"/>
+			<p>
+				Text Node
+			</p>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E#myid an E element with ID equal to "myid"]]></description>
+		<css><![CDATA[p#foo {color: #000;}]]></css>
+		<html>
+			<p id="foo" style:color="0"/>
+			<p/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E.warning an E element whose class is "warning" (the document language specifies how class is determined).]]></description>
+		<css><![CDATA[p.foo {color: #000;}]]></css>
+		<html>
+			<p class="foo" style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E:not(s) an E element that does not match simple selector s]]></description>
+		<css><![CDATA[*:not(div) {color: #000;}]]></css>
+		<html style:color="0">
+			<p style:color="0"/>
+			<div/>
+		</html>
+	</test>
+	
+	<test>
+		<description><![CDATA[E F an F element descendant of an E element]]></description>
+		<css><![CDATA[div p {color: #000;}]]></css>
+		<html>
+			<p/>
+			<div>
+				<p style:color="0">
+					<p style:color="0"/>
+				</p>
+			</div>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E > F an F element child of an E element]]></description>
+		<css><![CDATA[div > p {color: #000;}]]></css>
+		<html>
+			<p/>
+			<div>
+				<p style:color="0">
+					<p/>
+				</p>
+			</div>
+		</html>
+	</test>
+	
+	<test>
+		<description><![CDATA[E + F an F element immediately preceded by an E element]]></description>
+		<css><![CDATA[div + p {color: #000;}]]></css>
+		<html>
+			<div>
+				<p/>
+			</div>
+			<p style:color="0"/>
+			<p/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E ~ F an F element preceded by an E element]]></description>
+		<css><![CDATA[div ~ p {color: #000;}]]></css>
+		<html>
+			<div>
+				<p/>
+			</div>
+			<p style:color="0"/>
+			<p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[ns|E elements with name E in namespace ns]]></description>
+		<css>
+		<![CDATA[
+			@namespace example url(http://www.example.com);
+			example|p {color: #000;}
+		]]>
+		</css>
+		<html xmlns:example="http://www.example.com">
+			<p/>
+			<example:p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[*|E elements with name E in any namespace, including those without a namespace]]></description>
+		<css>
+		<![CDATA[*|p {color: #000;}]]>
+		</css>
+		<html xmlns:example="http://www.example.com">
+			<p style:color="0"/>
+			<example:p style:color="0"/>
+		</html>
+	</test>
+	
+	<test>
+		<description><![CDATA[|E elements with name E without a namespace]]></description>
+		<css>
+		<![CDATA[|p {color: #000;}]]>
+		</css>
+		<html xmlns:example="http://www.example.com">
+			<p style:color="0"/>
+			<example:p/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E if no default namespace has been declared for selectors, this is equivalent to *|E. Otherwise it is equivalent to ns|E where ns is the default namespace.]]></description>
+		<css>
+		<![CDATA[p {color: #000;}]]>
+		</css>
+		<html xmlns:example="http://www.example.com">
+			<p style:color="0"/>
+			<example:p style:color="0"/>
+		</html>
+	</test>
+	<test>
+		<description><![CDATA[E if no default namespace has been declared for selectors, this is equivalent to *|E. Otherwise it is equivalent to ns|E where ns is the default namespace.]]></description>
+		<css>
+		<![CDATA[
+			@namespace url(http://www.example.com);
+			p {color: #000;}
+		]]>
+		</css>
+		<html xmlns:example="http://www.example.com">
+			<p/>
+			<example:p style:color="0"/>
+		</html>
+	</test>
+</tests>

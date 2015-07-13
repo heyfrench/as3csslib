@@ -1,0 +1,1 @@
+﻿package org.w3c.dom.html{	public interface IHTMLPreElement extends IHTMLElement	{		function get width():int		//function set width(value:int):void	}}

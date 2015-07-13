@@ -1,0 +1,1 @@
+﻿package org.w3c.dom.html{	public interface IHTMLImageElement extends IHTMLElement	{		function get src():String		function get name():String		function get alt():String		function get height():int		function get width():int		function get longdesc():String	}}

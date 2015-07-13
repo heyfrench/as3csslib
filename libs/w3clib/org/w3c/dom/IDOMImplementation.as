@@ -1,0 +1,1 @@
+﻿package org.w3c.dom{	public interface IDOMImplementation	{		function createDocument(namespaceUri:String = "", qualifiedName:String = ""):IDocument	}}

@@ -1,0 +1,1 @@
+﻿package org.w3c.dom.html{	public interface IHTMLBaseElement extends IHTMLElement	{		function get href():String		function set href(value:String):void		function get target():String	}}

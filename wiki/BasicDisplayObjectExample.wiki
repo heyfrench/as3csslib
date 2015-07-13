@@ -1,7 +1,0 @@
-#summary An example of styling DisplayObjects with CSS.
-
-= Introduction =
-
-
-
-= Details =

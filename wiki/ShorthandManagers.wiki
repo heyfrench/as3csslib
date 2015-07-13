@@ -1,6 +1,0 @@
-#summary Instructions for using and extending CSS shorthands.
-
-= Introduction =
-
-
-= Details =

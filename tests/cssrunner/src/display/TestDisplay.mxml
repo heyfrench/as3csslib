@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="100%" statusStyleName="{failed ? 'failed' : 'passed'}" status="{failed ? 'FAILED' : 'PASSED'}">
+	
+	<mx:Style>
+		.passed { color: #009900;}
+		.failed { color: #990000; font-weight: bold; }
+	</mx:Style>
+	
+	<mx:Script>
+		<![CDATA[
+			import model.CSSStyleTest;
+			import model.CSSTestNode;
+			import model.CSSTest;
+			import org.w3c.dom.css.ICSSValue;
+			import com.newgonzo.web.css.CSSComputedStyle;
+			import com.newgonzo.web.css.CSS;
+			import mx.collections.ArrayCollection;
+			
+			[Bindable] public var cssSource:String;
+			[Bindable] public var cssParsed:String;
+			[Bindable] public var xmlSource:String;
+			
+			[Bindable] public var results:ArrayCollection;
+			[Bindable] public var errors:ArrayCollection;
+			
+			[Bindable] public var failed:Boolean = false;
+			
+			protected var css:CSS;
+			protected var xml:XML;
+			protected var computed:CSSComputedStyle;
+			
+			public function runTest(test:CSSTest):void
+			{
+				title = test.description;
+				
+				cssSource = test.cssSource;
+				cssParsed = test.css.toCSSString();
+				xmlSource = test.html.toXMLString();
+				
+				var nodes:Array = test.testNodes;
+				var node:CSSTestNode;
+				
+				var allTests:Array = new Array();
+				
+				var styleTest:CSSStyleTest;
+				
+				for each(node in nodes)
+				{
+					for each(styleTest in node.styleTests)
+					{
+						if(!styleTest.passed)
+						{
+							failed = true;
+						}
+						
+						allTests.push(styleTest);
+					}
+				}
+				
+				results = new ArrayCollection(allTests);
+				errors = new ArrayCollection(test.css.errors);
+				
+				trace("errors: " + errors.toArray());
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:HDividedBox width="100%" height="100%">
+		
+		<mx:TabNavigator width="100%" height="100%">
+			<mx:VBox label="CSS Source" width="100%" height="100%">
+				<mx:TextArea text="{cssSource}" width="100%" height="100%" editable="false"/>
+			</mx:VBox>
+			<mx:VBox label="CSS Parsed" width="100%" height="100%">
+				<mx:TextArea text="{cssParsed}" width="100%" height="100%" editable="false"/>
+			</mx:VBox>
+			<mx:VBox label="CSS Errors" width="100%" height="100%">
+				<mx:DataGrid dataProvider="{errors}" width="100%" height="100%">
+					<mx:columns>
+						<mx:DataGridColumn headerText="Message" dataField="message"/>
+						<mx:DataGridColumn headerText="Error" dataField="error"/>
+						<mx:DataGridColumn headerText="Line" dataField="lineNumber" width="75"/>
+						<mx:DataGridColumn headerText="Column" dataField="columnNumber" width="75"/>
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:VBox>
+			<mx:VBox label="XML Source" width="100%" height="100%">
+				<mx:TextArea text="{xmlSource}" width="100%" height="100%" editable="false"/>
+			</mx:VBox>
+		</mx:TabNavigator>
+		
+		
+		
+		<mx:DataGrid rowCount="4" width="100%" height="100%" dataProvider="{results}">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Node" dataField="nodeName"/>
+				<mx:DataGridColumn headerText="Style" dataField="styleName"/>
+				<mx:DataGridColumn headerText="Expected Value" dataField="expectedValue"/>
+				<mx:DataGridColumn headerText="Actual Value" dataField="actualValue"/>
+				<mx:DataGridColumn headerText="Passed" dataField="passed"/>
+			</mx:columns>
+		</mx:DataGrid>
+	</mx:HDividedBox>
+</mx:Panel>

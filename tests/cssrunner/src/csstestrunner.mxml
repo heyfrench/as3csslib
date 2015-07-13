@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:display="display.*" creationComplete="creationComplete();">
+	
+	<mx:Script>
+		<![CDATA[
+			import model.CSSTest;
+			import model.CSSTestSet;
+			import display.TestDisplay;
+			
+			private var testSet:CSSTestSet;
+			private var loader:URLLoader;
+			
+			[Bindable] public var passedCount:uint = 0;
+			[Bindable] public var failedCount:uint = 0;
+			
+			private function creationComplete():void
+			{
+				
+			}
+			
+			private function loadSuite(url:String):void
+			{
+				removeAllTests();
+				
+				loader = new URLLoader(new URLRequest(url));
+				loader.addEventListener(Event.COMPLETE, suiteLoaded);
+			}
+			
+			private function suiteLoaded(event:Event):void
+			{
+				loader.removeEventListener(Event.COMPLETE, suiteLoaded);
+				
+				var testData:XML = new XML(loader.data);
+				testSet = new CSSTestSet(testData);
+				
+				runTests();
+			}
+			
+			private function runTests():void
+			{
+				var tests:Array = testSet.tests;
+				var test:CSSTest;
+				
+				var testDisplay:TestDisplay;
+				
+				for each(test in tests)
+				{
+					testDisplay = new TestDisplay();
+					testDisplay.height = 200;
+					testDisplays.addChild(testDisplay);
+					
+					testDisplay.runTest(test);
+
+					if(testDisplay.failed)
+					{
+						failedCount++;
+					}
+					else
+					{
+						passedCount++;
+					}
+				}
+			}
+			
+			private function removeAllTests():void
+			{
+				passedCount = failedCount = 0;
+				testDisplays.removeAllChildren();
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:ApplicationControlBar dock="true">
+		<mx:ComboBox id="suiteCombo">
+			<mx:dataProvider>
+				<mx:Array>
+					<mx:Object label="Selectors" data="tests/selectors.xml"/>
+					<mx:Object label="Shorthand Properties" data="tests/shorthands.xml"/>
+					<mx:Object label="Color Values" data="tests/colors.xml"/>
+				</mx:Array>
+			</mx:dataProvider>
+		</mx:ComboBox>
+		<mx:Button label="Run" click="loadSuite(suiteCombo.selectedItem.data);"/>
+		<mx:Spacer width="100%"/>
+		<mx:Label text="{'Passed: ' + passedCount}"/>
+		<mx:Label text="{'Failed: ' + failedCount}"/>
+	</mx:ApplicationControlBar>
+	
+	<mx:VBox id="testDisplays" width="100%" height="100%">
+	</mx:VBox>
+	
+</mx:Application>

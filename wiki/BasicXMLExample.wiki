@@ -1,7 +1,0 @@
-#summary A basic example of styling XML with CSS.
-
-= Introduction =
-
-
-
-= Details =

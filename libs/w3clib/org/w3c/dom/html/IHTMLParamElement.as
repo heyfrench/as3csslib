@@ -1,0 +1,1 @@
+﻿package org.w3c.dom.html{	public interface IHTMLParamElement extends IHTMLElement	{		function get name():String		function get value():String		function get valueType():String		function get type():String	}}

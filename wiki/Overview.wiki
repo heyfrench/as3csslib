@@ -1,7 +1,0 @@
-#summary An overview of the main components.
-
-= Introduction =
-
-
-
-= Details =

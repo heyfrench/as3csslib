@@ -1,6 +1,0 @@
-#summary Instructions for defining custom CSS properties and their default values.
-
-= Introduction =
-
-
-= Details =
